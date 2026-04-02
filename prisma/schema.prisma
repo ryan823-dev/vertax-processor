@@ -17,8 +17,9 @@ model Tenant {
   name   String
   status String @default("active")
 
-  users  User[]
-  assets Asset[]
+  users       User[]
+  assets      Asset[]
+  assetChunks AssetChunk[]
 }
 
 // User 模型（简化版）
