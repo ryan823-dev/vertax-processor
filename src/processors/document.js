@@ -1,7 +1,4 @@
 import pdfParse from 'pdf-parse';
-import mammoth from 'mammoth';
-import pptxParser from 'node-pptx-parser';
-import xlsx from 'xlsx';
 
 /**
  * 文本分块配置
@@ -83,6 +80,7 @@ async function extractPdfText(buffer) {
  */
 async function extractWordText(buffer) {
   try {
+    const mammoth = (await import('mammoth')).default;
     const result = await mammoth.extractRawText({ buffer });
     return result.value;
   } catch (error) {
@@ -187,6 +185,7 @@ async function extractPPTText(buffer) {
     fs.writeFileSync(tempFile, buffer);
     
     // 使用 node-pptx-parser 解析
+    const pptxParser = (await import('node-pptx-parser')).default;
     const pptx = await pptxParser.parse(tempFile);
     
     // 清理临时文件
@@ -212,6 +211,7 @@ async function extractPPTText(buffer) {
  */
 async function extractExcelText(buffer) {
   try {
+    const xlsx = (await import('xlsx')).default;
     // 读取工作簿
     const workbook = xlsx.read(buffer, { type: 'buffer' });
     
