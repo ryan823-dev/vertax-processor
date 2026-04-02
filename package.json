@@ -17,8 +17,6 @@
     "@fastify/multipart": "^8.2.0",
     "pdf-parse": "^1.1.1",
     "mammoth": "^1.6.0",
-    "sharp": "^0.33.2",
-    "tesseract.js": "^5.0.4",
     "@prisma/client": "^5.12.0",
     "ali-oss": "^6.21.0",
     "uuid": "^9.0.1",

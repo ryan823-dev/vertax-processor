@@ -2,8 +2,6 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import multipart from '@fastify/multipart';
 import { processDocument } from './processors/document.js';
-import { processVideo } from './processors/video.js';
-import { processImage } from './processors/image.js';
 import { saveToDatabase } from './services/database.js';
 import { downloadFromOSS, uploadToOSS } from './services/oss.js';
 
@@ -57,9 +55,15 @@ fastify.post('/process', async (request, reply) => {
     // 根据文件类型选择处理器
     let result;
     if (mimeType.startsWith('video/')) {
-      result = await processVideo(fileBuffer, mimeType);
+      throw new Error('视频处理暂不支持，请先处理文档类型文件');
     } else if (mimeType.startsWith('image/')) {
-      result = await processImage(fileBuffer, mimeType);
+      // 动态导入图片处理器（依赖 sharp/tesseract.js，可能不可用）
+      try {
+        const { processImage } = await import('./processors/image.js');
+        result = await processImage(fileBuffer, mimeType);
+      } catch (importErr) {
+        throw new Error(`图片处理模块不可用: ${importErr.message}`);
+      }
     } else {
       result = await processDocument(fileBuffer, mimeType);
     }

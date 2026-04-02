@@ -2,9 +2,10 @@
 # https://nixpacks.com/docs
 
 [phases.setup]
+nixPkgs = ['nodejs_20', 'openssl']
 
 [phases.install]
-cmds = ['npm install']
+cmds = ['npm install --production=false']
 dependsOn = ['setup']
 
 [phases.build]
@@ -16,4 +17,3 @@ cmd = 'npm start'
 
 [variables]
 NODE_ENV = 'production'
-PORT = '3001'
